@@ -21,11 +21,11 @@ class AnimatedOnboarding extends StatefulWidget {
   final MainAxisAlignment topMainAxisAlignment;
 
   const AnimatedOnboarding({
-    @required this.pages,
-    @required this.pageController,
-    @required this.topLeftChild,
-    @required this.topRightChild,
-    @required this.onFinishedButtonTap,
+    required this.pages,
+    required this.pageController,
+    required this.topLeftChild,
+    required this.topRightChild,
+    required this.onFinishedButtonTap,
     this.topMainAxisAlignment = MainAxisAlignment.spaceBetween,
   });
 
@@ -42,9 +42,9 @@ class _AnimatedOnboardingState extends State<AnimatedOnboarding> {
   @override
   void initState() {
     // notify scroll changes in pageview
-    widget.pageController?.addListener(() {
+    widget.pageController.addListener(() {
       // +0.025 - shows a little bit of the upcoming page in the circle button
-      _notifier.value = widget.pageController.page + 0.025;
+      _notifier.value = (widget.pageController.page! + 0.025);
 
       // change state if the current page is the last page
       if (widget.pageController.page == widget.pages.length - 1 &&
@@ -63,8 +63,8 @@ class _AnimatedOnboardingState extends State<AnimatedOnboarding> {
 
   @override
   void dispose() {
-    widget.pageController?.dispose();
-    _notifier?.dispose();
+    widget.pageController.dispose();
+    _notifier.dispose();
 
     super.dispose();
   }
@@ -198,20 +198,20 @@ class _FlowPainter extends CustomPainter {
   final GlobalKey target;
   final List<Color> colors;
 
-  RenderBox _renderBox;
+  RenderBox? _renderBox;
 
-  _FlowPainter({this.context, this.notifier, this.target, this.colors});
+  _FlowPainter({required this.context, required this.notifier, required this.target, required this.colors});
 
   @override
   void paint(Canvas canvas, Size size) {
     final screen = MediaQuery.of(context).size;
     if (_renderBox == null && target != null)
-      _renderBox = target.currentContext.findRenderObject();
+      _renderBox = target.currentContext!.findRenderObject() as RenderBox?;
     if (_renderBox == null || notifier == null) return;
 
     final page = notifier.value.floor();
     final animatorVal = notifier.value - page;
-    final targetPos = _renderBox.localToGlobal(Offset.zero);
+    final targetPos = _renderBox!.localToGlobal(Offset.zero);
     final xScale = screen.height * 8;
     final yScale = xScale / 2;
 
@@ -227,17 +227,17 @@ class _FlowPainter extends CustomPainter {
       buttonRect = Rect.fromLTRB(
         targetPos.dx - (xScale * curvedVal), //left
         targetPos.dy - (yScale * curvedVal), //top
-        targetPos.dx + _renderBox.size.width * reverseVal, //right
-        targetPos.dy + _renderBox.size.height + (yScale * curvedVal), //bottom
+        targetPos.dx + _renderBox!.size.width * reverseVal, //right
+        targetPos.dy + _renderBox!.size.height + (yScale * curvedVal), //bottom
       );
     } else {
       bgPaint..color = colors[(page + 1) % colors.length];
       nextColorPaint..color = colors[page % colors.length];
       buttonRect = Rect.fromLTRB(
-        targetPos.dx + _renderBox.size.width * reverseVal, //left
+        targetPos.dx + _renderBox!.size.width * reverseVal, //left
         targetPos.dy - yScale * reverseVal, //top
-        targetPos.dx + _renderBox.size.width + xScale * reverseVal, //right
-        targetPos.dy + _renderBox.size.height + yScale * reverseVal, //bottom
+        targetPos.dx + _renderBox!.size.width + xScale * reverseVal, //right
+        targetPos.dy + _renderBox!.size.height + yScale * reverseVal, //bottom
       );
     }
 
@@ -254,7 +254,7 @@ class _FlowPainter extends CustomPainter {
 
 class _AnimatedBody extends StatefulWidget {
   final Widget child;
-  const _AnimatedBody({@required this.child});
+  const _AnimatedBody({required this.child});
 
   @override
   _AnimatedBodyState createState() => _AnimatedBodyState();
@@ -262,8 +262,8 @@ class _AnimatedBody extends StatefulWidget {
 
 class _AnimatedBodyState extends State<_AnimatedBody>
     with SingleTickerProviderStateMixin {
-  AnimationController _controller;
-  Animation<double> _animation;
+  late AnimationController _controller;
+  late Animation<double> _animation;
 
   @override
   initState() {
@@ -279,7 +279,7 @@ class _AnimatedBodyState extends State<_AnimatedBody>
 
   @override
   void dispose() {
-    _controller?.dispose();
+    _controller.dispose();
     super.dispose();
   }
 
@@ -296,5 +296,5 @@ class OnboardingPage {
   final Color color;
   final Widget child;
 
-  const OnboardingPage({@required this.color, @required this.child});
+  const OnboardingPage({required this.color, required this.child});
 }
