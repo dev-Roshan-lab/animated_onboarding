@@ -1,8 +1,8 @@
 name: animated_onboarding_ns
-description: Animated onboarding process for your Flutter app. This library contains a pre-build animation for your app.
-version: 0.0.2
-homepage: https://github.com/HenrikThien/animated_onboarding
-repository: https://github.com/HenrikThien/animated_onboarding
+description: Animated onboarding process for your Flutter app, now with null safety. This library contains a pre-build animation for your app.
+version: 0.0.3
+homepage: https://github.com/dev-Roshan-lab/animated_onboarding_ns
+repository: https://github.com/dev-Roshan-lab/animated_onboarding_ns
 
 environment:
   sdk: ">=2.13.0 <3.0.0"
