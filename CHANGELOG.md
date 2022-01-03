@@ -1,3 +1,7 @@
+## [0.0.3] - 03-01-2022
+
+Changed to TextButton from FlatButton
+
 ## [0.0.2] - 27.07.2020
 
 Updated the pub.dev scoring
